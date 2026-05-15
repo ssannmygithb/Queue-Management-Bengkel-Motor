@@ -1,56 +1,314 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biodata</title>
-    <link rel="stylesheet" href="bio.css"/>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Servis — BengkelQ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Oswald&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    
-    <body class="light">
-    
-        <div class="theme">
-            <button id="theme-but" onclick="toggleTheme()">🌙</button>
+
+    <link rel="stylesheet" href="bio.css" />
+  </head>
+  <body class="light">
+    <!-- Headernya -->
+    <header>
+      <div class="logo">BENGKEL<span>Gweh</span></div>
+      <button class="theme-toggle" id="theme-btn" aria-label="Toggle tema">
+        🌙
+      </button>
+    </header>
+
+    <!-- Bar Prosesnya -->
+    <div class="progress-wrap">
+      <div class="steps">
+        <div class="step-item active" id="step-1">
+          <div class="step-dot">1</div>
+          <div class="step-label">Biodata</div>
+        </div>
+        <div class="step-item" id="step-2">
+          <div class="step-dot">2</div>
+          <div class="step-label">Layanan</div>
+        </div>
+        <div class="step-item" id="step-3">
+          <div class="step-dot">3</div>
+          <div class="step-label">Konfirmasi</div>
+        </div>
+        <div class="step-item" id="step-4">
+          <div class="step-dot">4</div>
+          <div class="step-label">Antrean</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Biodatanya -->
+    <main>
+      <div class="card">
+        <div class="page active" id="page-1">
+          <div class="card-title">Data Diri</div>
+          <div class="card-sub">
+            Isi data berikut untuk mendaftar antrean servis
+          </div>
+
+          <div class="field" id="f-nama">
+            <label for="inp-nama">Nama Pelanggan</label>
+            <input
+              type="text"
+              id="inp-nama"
+              placeholder="Contoh: Budi Santoso"
+              autocomplete="name"
+            />
+            <div class="err-msg">Nama tidak boleh kosong.</div>
+          </div>
+
+          <div class="field" id="f-hp">
+            <label for="inp-hp">Nomor WhatsApp Aktif</label>
+            <input
+              type="tel"
+              id="inp-hp"
+              placeholder="08xxxxxxxxxx"
+              maxlength="15"
+            />
+            <div class="err-msg">
+              Masukkan nomor WhatsApp yang valid (min. 10 digit).
+            </div>
+          </div>
+
+          <div class="field" id="f-plat">
+            <label for="inp-plat">Plat Nomor Kendaraan</label>
+            <input
+              type="text"
+              id="inp-plat"
+              placeholder="Contoh: B 1234 ABC"
+              style="text-transform: uppercase"
+              maxlength="12"
+            />
+            <div class="plate-preview" id="plat-preview">— — —</div>
+            <div class="err-msg">Masukkan plat nomor kendaraan.</div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-reset" onclick="resetForm()">Reset ↺</button>
+            <button class="btn btn-primary" onclick="goToPage2()">
+              Lanjut →
+            </button>
+          </div>
         </div>
 
-        <div class="container">
-            <h2>Masukan Biodata</h2>
-            <form id="biodata">
-                <label> Nama Pelanggan :
-                    <input type="text" required>
-                </label>
+        <!-- Jenis Layanannya -->
+        <div class="page" id="page-2">
+          <div class="card-title">Jenis Layanan</div>
+          <div class="card-sub">
+            Pilih satu atau lebih layanan yang Anda butuhkan
+          </div>
 
-                <label> No. Telp :
-                    <input type="number" required>
-                </label>   
+          <div class="service-grid">
+            <div
+              class="service-card"
+              data-id="A"
+              data-est="60"
+              onclick="toggleService(this)"
+            >
+              <div class="svc-check"></div>
+              <div class="svc-icon">🔧</div>
+              <div class="svc-body">
+                <div class="svc-name">Servis Berkala & Perawatan</div>
+                <div class="svc-desc">
+                  Tune-up, ganti oli, perawatan rutin berkala
+                </div>
+              </div>
+            </div>
 
-                <label> Plat Nomor Kendaraan :
-                    <input type="text" required>
-                </label>
+            <div
+              class="service-card"
+              data-id="B"
+              data-est="90"
+              onclick="toggleService(this)"
+            >
+              <div class="svc-check"></div>
+              <div class="svc-icon">⚙️</div>
+              <div class="svc-body">
+                <div class="svc-name">Perbaikan & Perawatan Teknis</div>
+                <div class="svc-desc">Rem, kelistrikan, CVT, ban, suspensi</div>
+              </div>
+            </div>
 
-                <button id="next" type="submit">Next</button>
-                <input id="reset" type="Reset">
-            </form>
+            <div
+              class="service-card"
+              data-id="C"
+              data-est="240"
+              onclick="toggleService(this)"
+            >
+              <div class="svc-check"></div>
+              <div class="svc-icon">🏍️</div>
+              <div class="svc-body">
+                <div class="svc-name">
+                  Servis Besar / Overhaul
+                  <span class="svc-badge badge-heavy">Berat</span>
+                </div>
+                <div class="svc-desc">Turun mesin, overhaul total komponen</div>
+              </div>
+            </div>
+
+            <div
+              class="service-card"
+              data-id="D"
+              data-est="20"
+              onclick="toggleService(this)"
+            >
+              <div class="svc-check"></div>
+              <div class="svc-icon">⚡</div>
+              <div class="svc-body">
+                <div class="svc-name">
+                  Layanan Khusus — Fast Track
+                  <span class="svc-badge badge-fast">Cepat</span>
+                </div>
+                <div class="svc-desc">
+                  Antrian prioritas khusus ganti oli atau spare part
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="service-card"
+              data-id="E"
+              data-est="45"
+              onclick="toggleService(this)"
+            >
+              <div class="svc-check"></div>
+              <div class="svc-icon">🔍</div>
+              <div class="svc-body">
+                <div class="svc-name">Pengecekan / Diagnosa</div>
+                <div class="svc-desc">
+                  Biarkan mekanik kami periksa keluhan spesifik Anda
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="svc-error"
+            class="err-msg"
+            style="text-align: center; margin-bottom: 1rem"
+          >
+            Pilih minimal satu jenis layanan.
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="goBack(1)">
+              ← Kembali
+            </button>
+            <button class="btn btn-primary" onclick="goToPage3()">
+              Lanjut →
+            </button>
+          </div>
         </div>
 
-        <script src="bio.js"></script>
+        <!-- Konfirmasi Dulu Weh -->
+        <div class="page" id="page-3">
+          <div class="card-title">Konfirmasi</div>
+          <div class="card-sub">
+            Periksa kembali data Anda sebelum mengambil antrean
+          </div>
 
-        
+          <div class="confirm-block">
+            <h4>Data Pelanggan</h4>
+            <div class="confirm-row">
+              <span class="label">Nama</span
+              ><span class="val" id="c-nama">—</span>
+            </div>
+            <div class="confirm-row">
+              <span class="label">WhatsApp</span
+              ><span class="val" id="c-hp">—</span>
+            </div>
+            <div class="confirm-row">
+              <span class="label">Plat Nomor</span
+              ><span
+                class="val"
+                id="c-plat"
+                style="
+                  font-family: &quot;Oswald&quot;, sans-serif;
+                  letter-spacing: 0.1em;
+                "
+                >—</span
+              >
+            </div>
+          </div>
 
-    </body>
+          <div class="confirm-block">
+            <h4>Layanan Dipilih</h4>
+            <div class="svc-confirm-list" id="c-svc-list"></div>
+          </div>
 
+          <div class="confirm-block highlight">
+            <div class="confirm-row" style="border: none; padding: 0">
+              <span class="label">Estimasi Waktu Tunggu</span>
+              <span class="val highlight-text" id="c-est">—</span>
+            </div>
+          </div>
 
-</head>
-<body>
-    
-</body>
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="goBack(2)">
+              ← Kembali
+            </button>
+            <button class="btn btn-primary" onclick="submitQueue()">
+              Ambil Antrean ✓
+            </button>
+          </div>
+        </div>
+
+        <!-- Tampilin antriannya -->
+        <div class="page" id="page-4">
+          <div class="queue-result">
+            <div class="card-title" style="text-align: center">
+              Antrean Berhasil! 🎉
+            </div>
+            <div class="card-sub" style="text-align: center">
+              Notifikasi akan dikirim ke WhatsApp Anda
+            </div>
+
+            <div class="queue-number-wrap">
+              <div class="queue-label">Nomor Antrean</div>
+              <div class="queue-number" id="q-number">—</div>
+            </div>
+
+            <div class="queue-info-row">
+              <div class="queue-info-box">
+                <div class="qib-label">Nama</div>
+                <div class="qib-val" id="q-nama">—</div>
+              </div>
+              <div class="queue-info-box">
+                <div class="qib-label">Plat</div>
+                <div class="qib-val" id="q-plat">—</div>
+              </div>
+              <div class="queue-info-box">
+                <div class="qib-label">Est. Tunggu</div>
+                <div class="qib-val" id="q-est">—</div>
+              </div>
+            </div>
+
+            <div class="confirm-block" style="text-align: left">
+              <h4>Layanan Anda</h4>
+              <div class="svc-confirm-list" id="q-svc-list"></div>
+            </div>
+
+            <div class="btn-group">
+              <button
+                class="btn btn-primary"
+                style="width: 100%"
+                onclick="resetForm()"
+              >
+                Daftar Antrean Baru
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="bio.js"></script>
+  </body>
 </html>
