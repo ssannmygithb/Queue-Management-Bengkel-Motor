@@ -1,4 +1,4 @@
-/* ── STATE APLIKASI ── */
+/* ── State aplikasi ── */
 const state = {
   nama: "",
   hp: "",
@@ -26,7 +26,7 @@ document.getElementById("theme-btn").addEventListener("click", () => {
   document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
 });
 
-/* ── PREVIEW PLAT NOMOR ── */
+/* ── Preview PLat Nomor ── */
 document.getElementById("inp-plat").addEventListener("input", function () {
   const v = this.value.toUpperCase().trim();
   this.value = v;
