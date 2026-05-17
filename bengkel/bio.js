@@ -1,4 +1,4 @@
-/* ── State aplikasi ── */
+/* ── STATE APLIKASI ── */
 const state = {
   nama: "",
   hp: "",
@@ -7,7 +7,6 @@ const state = {
   queueNum: null,
 };
 
-// Pastikan kode E (Pengecekan) ada di daftar ini
 const SERVICE_MAP = {
   A: { name: "Servis Berkala & Perawatan", est: 60 },
   B: { name: "Perbaikan & Perawatan Teknis", est: 90 },
@@ -16,24 +15,28 @@ const SERVICE_MAP = {
   E: { name: "Pengecekan / Diagnosa", est: 45 },
 };
 
+/* ── TAHUN OTOMATIS FOOTER ── */
+const yearSpan = document.getElementById("year");
+if (yearSpan) {
+  yearSpan.textContent = new Date().getFullYear();
+}
+
 /* ── LOGIKA TEMA TERANG/GELAP ── */
-// Diatur ke true karena tema dasar kita sekarang adalah Light Mode
 let isLight = true;
 document.getElementById("theme-btn").addEventListener("click", () => {
   isLight = !isLight;
-  // Jika isLight true, set class ke 'light', jika false set ke 'dark'
   document.body.className = isLight ? "light" : "dark";
   document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
 });
 
-/* ── Preview PLat Nomor ── */
+/* ── PREVIEW PLAT NOMOR ── */
 document.getElementById("inp-plat").addEventListener("input", function () {
   const v = this.value.toUpperCase().trim();
   this.value = v;
   document.getElementById("plat-preview").textContent = v || "— — —";
 });
 
-/* ── INDIKATOR LANGKAH & GANTI HALAMAN ── */
+/* ── INDIKATOR LANGKAH & NAVIGASI ── */
 function setStep(n) {
   for (let i = 1; i <= 4; i++) {
     const el = document.getElementById("step-" + i);
@@ -52,7 +55,7 @@ function showPage(n) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* ── VALIDASI FORM HALAMAN 1 ── */
+/* ── VALIDASI HALAMAN 1 ── */
 function validate1() {
   let ok = true;
   const inputs = [
@@ -69,7 +72,6 @@ function validate1() {
     const val = document.getElementById(item.id).value.trim();
     const f = document.getElementById(item.parent);
 
-    // Jika tidak valid
     if (!item.valid(val)) {
       f.classList.add("has-error");
       document.getElementById(item.id).classList.add("error");
@@ -80,7 +82,6 @@ function validate1() {
     }
   });
 
-  // Jika semua valid, simpan ke state
   if (ok) {
     state.nama = document.getElementById("inp-nama").value.trim();
     state.hp = document.getElementById("inp-hp").value.trim();
@@ -89,21 +90,18 @@ function validate1() {
   return ok;
 }
 
-/* ── LOGIKA PILIH LAYANAN (HALAMAN 2) ── */
+/* ── PILIH LAYANAN ── */
 function toggleService(card) {
   const id = card.dataset.id;
   card.classList.toggle("selected");
 
   const idx = state.services.indexOf(id);
-  // Tambah ke array jika belum ada, hapus jika sudah ada
   if (idx === -1) state.services.push(id);
   else state.services.splice(idx, 1);
 
-  // Sembunyikan pesan error jika pengguna sudah memilih
   document.getElementById("svc-error").style.display = "none";
 }
 
-/* ── TOMBOL NAVIGASI ── */
 function goToPage2() {
   if (validate1()) showPage(2);
 }
@@ -121,7 +119,7 @@ function goBack(n) {
   showPage(n);
 }
 
-/* ── REKAP KONFIRMASI (HALAMAN 3) ── */
+/* ── KONFIRMASI ── */
 function buildConfirmation() {
   document.getElementById("c-nama").textContent = state.nama;
   document.getElementById("c-hp").textContent = state.hp;
@@ -129,14 +127,11 @@ function buildConfirmation() {
 
   const list = document.getElementById("c-svc-list");
   list.innerHTML = "";
-
   let maxEst = 0;
 
   state.services.forEach((id) => {
     const svc = SERVICE_MAP[id];
-    // Ambil estimasi waktu paling lama
     if (svc.est > maxEst) maxEst = svc.est;
-
     list.innerHTML += `<div class="svc-confirm-item"><div class="dot"></div><span>${svc.name}</span></div>`;
   });
 
@@ -153,7 +148,7 @@ function formatEst(mins) {
   return mins + " Menit";
 }
 
-/* ── SUBMIT / BUAT ANTREAN (HALAMAN 4) ── */
+/* ── SUBMIT (BUAT ANTREAN TIRUAN) ── */
 let queueCounter = Math.floor(Math.random() * 10) + 1;
 
 function submitQueue() {
@@ -175,33 +170,28 @@ function submitQueue() {
   showPage(4);
 }
 
-/* ── FUNGSI RESET FORM KESELURUHAN ── */
+/* ── RESET FORM ── */
 function resetForm() {
-  // Kosongkan State
   state.nama = "";
   state.hp = "";
   state.plat = "";
   state.services = [];
 
-  // Kosongkan Input
   document.getElementById("inp-nama").value = "";
   document.getElementById("inp-hp").value = "";
   document.getElementById("inp-plat").value = "";
   document.getElementById("plat-preview").textContent = "— — —";
 
-  // Hapus peringatan error di input
   ["f-nama", "f-hp", "f-plat"].forEach((id) => {
     const f = document.getElementById(id);
     f.classList.remove("has-error");
     f.querySelector("input").classList.remove("error");
   });
 
-  // Hapus seleksi layanan (uncheck)
   document
     .querySelectorAll(".service-card")
     .forEach((c) => c.classList.remove("selected"));
   document.getElementById("svc-error").style.display = "none";
 
-  // Kembali ke halaman 1
   showPage(1);
 }

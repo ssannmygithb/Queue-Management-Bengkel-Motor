@@ -1,4 +1,4 @@
-/* Data antrian sementara */
+// Data dummy antrian bengkel
 let queues = [
   {
     id: "A001",
@@ -48,12 +48,12 @@ let queues = [
   },
 ];
 
-let currentEditId = null;
+let currentEditId = null; // State untuk ID yang sedang diproses
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Toggle visibilitas password
 const togglePassBtn = document.getElementById("toggle-pass");
 const passInput = document.getElementById("login-pass");
-
 if (togglePassBtn && passInput) {
   togglePassBtn.addEventListener("click", function () {
     const type =
@@ -63,6 +63,7 @@ if (togglePassBtn && passInput) {
   });
 }
 
+// Toggle tema Light/Dark
 let isLight = true;
 document.getElementById("theme-btn").addEventListener("click", () => {
   isLight = !isLight;
@@ -70,6 +71,7 @@ document.getElementById("theme-btn").addEventListener("click", () => {
   document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
 });
 
+// Kontrol Navigasi (Login, Logout, Ganti Tab)
 function login() {
   document.getElementById("login-page").classList.remove("active");
   document.getElementById("main-header").style.display = "flex";
@@ -105,6 +107,7 @@ function switchTab(tabId) {
   renderTables();
 }
 
+// Format mata uang Rupiah
 function formatRp(angka) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -113,6 +116,7 @@ function formatRp(angka) {
   }).format(angka);
 }
 
+// Render data ke tabel Antrian & Kasir
 function renderTables() {
   const qBody = document.getElementById("queue-tbody");
   const kBody = document.getElementById("kasir-tbody");
@@ -124,12 +128,14 @@ function renderTables() {
     countDone = 0;
 
   queues.forEach((q) => {
+    // Set warna badge sesuai status
     let badgeClass = "badge-wait";
     if (q.status.includes("Diproses") || q.status.includes("Pengecekan"))
       badgeClass = "badge-process";
     if (q.status === "Selesai Pengerjaan") badgeClass = "badge-done";
     if (q.status === "Lunas") badgeClass = "badge-lunas";
 
+    // Hitung rekap dashboard
     if (q.status === "Menunggu") countWait++;
     if (
       q.status.includes("Diproses") ||
@@ -139,6 +145,7 @@ function renderTables() {
       countProc++;
     if (q.status === "Selesai Pengerjaan") countDone++;
 
+    // Tampilkan di tabel Mekanik (belum selesai)
     if (q.status !== "Selesai Pengerjaan" && q.status !== "Lunas") {
       qBody.innerHTML += `
         <tr>
@@ -153,6 +160,7 @@ function renderTables() {
       `;
     }
 
+    // Tampilkan di tabel Kasir (sudah selesai pengerjaan)
     if (q.status === "Selesai Pengerjaan") {
       let total = q.bill.reduce((sum, item) => sum + item.price, 0);
       kBody.innerHTML += `
@@ -167,11 +175,13 @@ function renderTables() {
     }
   });
 
+  // Update angka summary
   document.getElementById("sum-wait").textContent = countWait;
   document.getElementById("sum-process").textContent = countProc;
   document.getElementById("sum-done").textContent = countDone;
 }
 
+// Modal Mekanik (Update Status & Tagihan)
 function openActionModal(id) {
   currentEditId = id;
   const q = queues.find((x) => x.id === id);
@@ -190,7 +200,7 @@ function renderBillList(q) {
   list.innerHTML = "";
   let total = 0;
 
-  q.bill.forEach((b, index) => {
+  q.bill.forEach((b) => {
     total += b.price;
     list.innerHTML += `
       <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
@@ -203,6 +213,7 @@ function renderBillList(q) {
   document.getElementById("m-total-price").textContent = formatRp(total);
 }
 
+// Tambah item jasa/sparepart baru
 function addBillItem() {
   const name = document.getElementById("m-item-name").value.trim();
   const price = parseInt(document.getElementById("m-item-price").value);
@@ -218,6 +229,7 @@ function addBillItem() {
   renderBillList(q);
 }
 
+// Simpan update status pengerjaan
 function saveUpdate() {
   const q = queues.find((x) => x.id === currentEditId);
   q.status = document.getElementById("m-status").value;
@@ -226,6 +238,7 @@ function saveUpdate() {
   renderTables();
 }
 
+// Modal Kasir (Pembayaran)
 function openKasirModal(id) {
   currentEditId = id;
   const q = queues.find((x) => x.id === id);
@@ -250,17 +263,17 @@ function processPayment() {
   renderTables();
 }
 
+// Simulasi Kirim Notifikasi WA
 function sendWA(type) {
   const q = queues.find((x) => x.id === currentEditId);
-  let msg = "";
-  if (type === "progress") {
-    msg = `[SIMULASI WA] Halo Kak ${q.name}, motor Plat ${q.plat} statusnya saat ini: *${document.getElementById("m-status").value}*.`;
-  } else if (type === "lunas") {
-    msg = `[SIMULASI WA] Terima kasih Kak ${q.name}. Pembayaran untuk motor ${q.plat} telah LUNAS. Kendaraan sudah bisa diambil. Hati-hati di jalan!`;
-  }
+  let msg =
+    type === "progress"
+      ? `[SIMULASI WA] Halo Kak ${q.name}, motor Plat ${q.plat} statusnya saat ini: *${document.getElementById("m-status").value}*.`
+      : `[SIMULASI WA] Terima kasih Kak ${q.name}. Pembayaran motor ${q.plat} telah LUNAS. Kendaraan bisa diambil.`;
   alert(msg);
 }
 
+// Helper untuk menutup modal
 function closeModal(modalId) {
   document.getElementById(modalId).classList.remove("active");
   currentEditId = null;

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="mimin.css" />
   </head>
   <body class="light">
+    <!-- Login Card -->
     <div id="login-page" class="login-overlay active">
       <div class="card login-card">
         <div
@@ -63,6 +64,7 @@
       </div>
     </div>
 
+    <!-- Header admin panel -->
     <header id="main-header" style="display: none">
       <div class="logo">
         BENGKEL<span>Gweh</span>
@@ -92,6 +94,7 @@
       </div>
     </header>
 
+    <!-- Panel navogasi -->
     <div class="top-nav" id="main-nav" style="display: none">
       <button class="tab-btn active" onclick="switchTab('tab-antrean')">
         Manajemen Antrean
@@ -101,6 +104,7 @@
       </button>
     </div>
 
+    <!-- Status Antrian -->
     <main id="main-content" style="display: none">
       <section id="tab-antrean" class="tab-content active">
         <div class="summary-grid">
@@ -122,6 +126,7 @@
           </div>
         </div>
 
+        <!-- Daftar antrian -->
         <div class="card" style="max-width: 100%">
           <div class="card-title" style="font-size: 1.5rem">
             Daftar Antrean Aktif
@@ -145,6 +150,7 @@
         </div>
       </section>
 
+      <!-- Menu kasir dan pembayaran -->
       <section id="tab-kasir" class="tab-content">
         <div class="card" style="max-width: 100%">
           <div class="card-title" style="font-size: 1.5rem">
@@ -172,6 +178,7 @@
       </section>
     </main>
 
+    <!-- Aksi -->
     <div class="modal-overlay" id="action-modal">
       <div class="card modal-content">
         <div class="modal-header">
@@ -345,6 +352,7 @@
       </div>
     </div>
 
+    <!-- Footer -->
     <footer id="admin-footer" style="display: none">
       BengkelGweh — Admin Panel &copy; <span id="year"></span>
     </footer>
