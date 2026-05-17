@@ -1,3 +1,4 @@
+/* Data antrian sementara */
 let queues = [
   {
     id: "A001",
