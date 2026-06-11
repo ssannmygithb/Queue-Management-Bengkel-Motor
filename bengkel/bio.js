@@ -12,10 +12,14 @@ if (yearSpan) {
 }
 
 /* ── LOGIKA TEMA TERANG/GELAP ── */
-let isLight = true;
+const savedTheme = localStorage.getItem("theme") || "light";
+let isLight = savedTheme === "light";
+document.body.className = savedTheme;
+document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
 document.getElementById("theme-btn").addEventListener("click", () => {
   isLight = !isLight;
   document.body.className = isLight ? "light" : "dark";
+  localStorage.setItem("theme", isLight ? "light" : "dark");
   document.getElementById("theme-btn").textContent = isLight ? "🌙" : "☀️";
 });
 

@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Konfirmasi — Bengkel</title>
+    <title>Antrean — Bengkel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="confirm.css" />
+    <link rel="stylesheet" href="antrian.css" />
   </head>
 
   <body class="light">
@@ -29,11 +29,11 @@
           <div class="step-dot">2</div>
           <div class="step-label">Layanan</div>
         </div>
-        <div class="step-item active" id="step-3">
+        <div class="step-item done" id="step-3">
           <div class="step-dot">3</div>
           <div class="step-label">Konfirmasi</div>
         </div>
-        <div class="step-item" id="step-4">
+        <div class="step-item done" id="step-4">
           <div class="step-dot">4</div>
           <div class="step-label">Antrean</div>
         </div>
@@ -42,34 +42,31 @@
 
     <main>
       <div class="card">
-        <div class="card-title">Konfirmasi</div>
-        <div class="card-sub">Periksa kembali data Anda sebelum mengambil antrean</div>
+        <div class="card-title">Antrean Berhasil!</div>
+        <div class="card-sub">Notifikasi akan dikirim ke WhatsApp Anda</div>
 
-        <div class="confirm-block">
-          <h4>Data Pelanggan</h4>
-          <div class="confirm-row">
-            <span class="label">Nama</span>
-            <span class="val" id="c-nama">—</span>
+        <div class="queue-number-wrap">
+          <div class="queue-label">Nomor Antrean</div>
+          <div class="queue-number" id="q-number">—</div>
+        </div>
+
+        <div class="queue-info-row">
+          <div class="queue-info-box">
+            <div class="qib-label">Nama</div>
+            <div class="qib-val" id="q-nama">—</div>
           </div>
-          <div class="confirm-row">
-            <span class="label">WhatsApp</span>
-            <span class="val" id="c-hp">—</span>
-          </div>
-          <div class="confirm-row">
-            <span class="label">Plat Nomor</span>
-            <span class="val" id="c-plat" style="font-family: 'Oswald', sans-serif; letter-spacing: 0.1em;">—</span>
+          <div class="queue-info-box">
+            <div class="qib-label">Plat</div>
+            <div class="qib-val" id="q-plat">—</div>
           </div>
         </div>
 
         <div class="confirm-block">
-          <h4>Layanan Dipilih</h4>
-          <div class="svc-confirm-list" id="c-svc-list"></div>
+          <h4>Layanan Anda</h4>
+          <div class="svc-confirm-list" id="q-svc-list"></div>
         </div>
 
-        <div class="btn-group">
-          <button class="btn btn-secondary" onclick="window.history.back()">← Kembali</button>
-          <button class="btn btn-primary" onclick="submitQueue()">Ambil Antrean ✓</button>
-        </div>
+        <button class="btn btn-primary" onclick="daftarBaru()">Daftar Antrean Baru</button>
       </div>
     </main>
 
@@ -77,6 +74,6 @@
       BengkelGweh — Pelanggan Panel &copy; <span id="year"></span>
     </footer>
 
-    <script src="confirm.js"></script>
+    <script src="antrian.js"></script>
   </body>
 </html>
