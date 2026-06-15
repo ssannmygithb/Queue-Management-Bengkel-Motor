@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal Admin — BengkelGweh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="mimin.css" />
+  </head>
+  <body class="light">
+    <!-- Login Card -->
+    <div id="login-page" class="login-overlay active">
+      <div class="card login-card">
+        <div
+          class="logo"
+          style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem"
+        >
+          BENGKEL<span>Gweh</span>
+        </div>
+        <div class="card-sub" style="text-align: center">
+          Portal Karyawan & Admin
+        </div>
+
+        <div class="field" style="margin-top: 2rem">
+          <label for="login-user">Username / ID Karyawan</label>
+          <input
+            type="text"
+            id="login-user"
+            class="form-input"
+            placeholder="Masukkan username..."
+          />
+        </div>
+        <div class="field">
+          <label for="login-pass">Password</label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="login-pass"
+              class="form-input"
+              placeholder="Masukkan password..."
+            />
+            <button
+              type="button"
+              id="toggle-pass"
+              class="toggle-password"
+              aria-label="Tampilkan password"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+        <button
+          class="btn btn-primary"
+          style="width: 100%; margin-top: 1rem"
+          onclick="login()"
+        >
+          Masuk Sistem
+        </button>
+      </div>
+    </div>
+
+    <!-- Header admin panel -->
+    <header id="main-header" style="display: none">
+      <div class="logo">
+        BENGKEL<span>Gweh</span>
+        <span
+          style="
+            font-size: 1rem;
+            color: var(--muted);
+            font-family: &quot;Poppins&quot;;
+          "
+          >/ ADMIN PANEL</span
+        >
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center">
+        <span id="admin-name" style="font-size: 0.85rem; font-weight: 600"
+          >Halo, Admin</span
+        >
+        <button class="theme-toggle" id="theme-btn" aria-label="Toggle tema">
+          🌙
+        </button>
+        <button
+          class="btn-reset"
+          style="padding: 0.4rem 1rem; font-size: 0.8rem"
+          onclick="logout()"
+        >
+          Keluar
+        </button>
+      </div>
+    </header>
+
+    <!-- Panel navigasi -->
+    <div class="top-nav" id="main-nav" style="display: none">
+      <button class="tab-btn active" onclick="switchTab('tab-antrean')">
+        Manajemen Antrean
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-kasir')">
+        Kasir & Pembayaran
+      </button>
+    </div>
+
+    <!-- Status Antrian -->
+    <main id="main-content" style="display: none">
+      <section id="tab-antrean" class="tab-content active">
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="sum-title">Menunggu</div>
+            <div class="sum-val" id="sum-wait">0</div>
+          </div>
+          <div class="summary-card">
+            <div class="sum-title">Sedang Diproses</div>
+            <div class="sum-val" id="sum-process" style="color: var(--cyan)">
+              0
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="sum-title">Selesai Pengerjaan</div>
+            <div class="sum-val" id="sum-done" style="color: var(--green)">
+              0
+            </div>
+          </div>
+        </div>
+
+        <!-- Daftar antrian -->
+        <div class="card" style="max-width: 100%">
+          <div class="card-title" style="font-size: 1.5rem">
+            Daftar Antrean Aktif
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>No. Antre</th>
+                  <th>Plat & Nama</th>
+                  <th>Jalur/Pit</th>
+                  <th>Layanan Awal</th>
+                  <th>Estimasi Selesai</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="queue-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Menu kasir dan pembayaran -->
+      <section id="tab-kasir" class="tab-content">
+        <div class="card" style="max-width: 100%">
+          <div class="card-title" style="font-size: 1.5rem">
+            Antrean Menunggu Pembayaran
+          </div>
+          <div class="card-sub">
+            Pilih pelanggan untuk memproses tagihan akhir.
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>No. Antre</th>
+                  <th>Plat & Nama</th>
+                  <th>Total Tagihan</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="kasir-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Aksi -->
+    <div class="modal-overlay" id="action-modal">
+      <div class="card modal-content">
+        <div class="modal-header">
+          <h3 class="card-title" style="font-size: 1.5rem; margin: 0">
+            Update Pengerjaan
+          </h3>
+          <button
+            class="btn-ghost"
+            onclick="closeModal('action-modal')"
+            style="font-size: 1.2rem"
+          >
+            ✖
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="confirm-block">
+            <div class="confirm-row">
+              <span class="label">Antrean</span
+              ><strong class="val" id="m-qnum" style="color: var(--cyan)"
+                >—</strong
+              >
+            </div>
+            <div class="confirm-row">
+              <span class="label">Plat Nomor</span
+              ><strong class="val" id="m-plat">—</strong>
+            </div>
+            <div class="confirm-row">
+              <span class="label">Layanan</span
+              ><span class="val" id="m-svc">—</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Update Status Kendaraan</label>
+            <select id="m-status" class="form-input">
+              <option value="Menunggu">Menunggu</option>
+              <option value="Pengecekan">Pengecekan (Diagnosa)</option>
+              <option value="Sedang Diproses">Sedang Diproses</option>
+              <option value="Menunggu Sparepart">Menunggu Sparepart</option>
+              <option value="Selesai Pengerjaan">Selesai Pengerjaan</option>
+            </select>
+          </div>
+
+          <div
+            style="
+              border-top: 1px solid var(--border);
+              margin: 1.5rem 0;
+              padding-top: 1rem;
+            "
+          >
+            <label
+              style="
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--muted);
+                text-transform: uppercase;
+              "
+              >Tambah Item/Sparepart Baru</label
+            >
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem">
+              <input
+                type="text"
+                id="m-item-name"
+                class="form-input"
+                placeholder="Nama Part/Jasa..."
+                style="flex: 2"
+              />
+              <input
+                type="number"
+                id="m-item-price"
+                class="form-input"
+                placeholder="Harga (Rp)"
+                style="flex: 1"
+              />
+              <button
+                class="btn btn-secondary"
+                style="padding: 0.5rem 1rem"
+                onclick="addBillItem()"
+              >
+                + Tambah
+              </button>
+            </div>
+          </div>
+
+          <div class="confirm-block">
+            <h4>Rincian Tagihan Saat Ini</h4>
+            <div
+              id="m-bill-list"
+              style="margin-bottom: 1rem; font-size: 0.85rem"
+            ></div>
+            <div
+              class="confirm-row"
+              style="border-top: 1px dashed var(--border2); padding-top: 0.5rem"
+            >
+              <span class="label">Total Biaya</span>
+              <strong
+                class="val"
+                style="color: var(--cyan); font-size: 1.1rem"
+                id="m-total-price"
+                >Rp 0</strong
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group modal-footer">
+          <button class="btn btn-secondary" onclick="sendWA('progress')">
+            📱 Info via WA
+          </button>
+          <button class="btn btn-primary" onclick="saveUpdate()">
+            Simpan Perubahan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="kasir-modal">
+      <div class="card modal-content">
+        <div class="modal-header">
+          <h3 class="card-title" style="font-size: 1.5rem; margin: 0">
+            Proses Pembayaran
+          </h3>
+          <button
+            class="btn-ghost"
+            onclick="closeModal('kasir-modal')"
+            style="font-size: 1.2rem"
+          >
+            ✖
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="confirm-block" style="text-align: center">
+            <h4>Total Tagihan</h4>
+            <div
+              style="
+                font-family: &quot;Oswald&quot;, sans-serif;
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: var(--cyan);
+              "
+              id="k-total"
+            >
+              Rp 0
+            </div>
+            <div style="color: var(--muted); font-size: 0.85rem" id="k-info">
+              —
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Metode Pembayaran</label>
+            <select id="k-method" class="form-input">
+              <option value="Cash">Cash (Tunai)</option>
+              <option value="Debit">Kartu Debit</option>
+              <option value="QRIS">QRIS / E-Wallet</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btn-group modal-footer">
+          <button
+            class="btn btn-primary"
+            style="background: var(--green)"
+            onclick="processPayment()"
+          >
+            Lunasi & Cetak Struk ✓
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="admin-footer" style="display: none">
+      BengkelGweh — Admin Panel &copy; <span id="year"></span>
+    </footer>
+
+    <script src="../js/api.js"></script>
+    <script src="mimin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "queue-management-bengkel-motor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistem antrean bengkel motor — Cloudflare Pages + D1",
+  "scripts": {
+    "dev": "wrangler pages dev public --d1=DB --local",
+    "db:migrate:local": "wrangler d1 migrations apply bengkel-queue --local",
+    "db:migrate:remote": "wrangler d1 migrations apply bengkel-queue --remote",
+    "deploy": "wrangler pages deploy public --project-name=bengkel-management"
+  },
+  "devDependencies": {
+    "wrangler": "^4.14.0"
+  }
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pilihan Servis — Bengkel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="servis.css" />
+  </head>
+
+  <body class="light">
+    <header>
+      <div class="logo">BENGKEL<span>Gweh</span></div>
+      <button class="theme-toggle" id="theme-btn" aria-label="Toggle tema">🌙</button>
+    </header>
+
+    <div class="progress-wrap">
+      <div class="steps">
+        <div class="step-item done" id="step-1">
+          <div class="step-dot">1</div>
+          <div class="step-label">Biodata</div>
+        </div>
+        <div class="step-item active" id="step-2">
+          <div class="step-dot">2</div>
+          <div class="step-label">Layanan</div>
+        </div>
+        <div class="step-item" id="step-3">
+          <div class="step-dot">3</div>
+          <div class="step-label">Konfirmasi</div>
+        </div>
+        <div class="step-item" id="step-4">
+          <div class="step-dot">4</div>
+          <div class="step-label">Antrean</div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div class="page-title">Pilih Layanan</div>
+      <div class="page-sub">Pilih satu atau lebih layanan yang dibutuhkan</div>
+
+      <div class="service-grid">
+
+        <div class="card" data-id="A" onclick="toggleService(this)">
+          <div class="card-name">Servis Berkala & Perawatan</div>
+          <div class="card-desc">Perawatan rutin untuk menjaga performa mesin tetap optimal. Meliputi pengecekan standar, tune-up ringan, pembersihan karburator/injektor, dan ganti oli.</div>
+          <div class="card-footer">
+            
+            <button class="btn-pilih">Pilih</button>
+          </div>
+        </div>
+
+        <div class="card" data-id="B" onclick="toggleService(this)">
+          <div class="card-name">Perbaikan & Perawatan Teknis</div>
+          <div class="card-desc">Penanganan keluhan spesifik dengan pembongkaran tingkat menengah. Termasuk perbaikan rem, kelistrikan, servis CVT, penggantian ban, dan suspensi.</div>
+          <div class="card-footer">
+            
+            <button class="btn-pilih">Pilih</button>
+          </div>
+        </div>
+
+        <div class="card" data-id="C" onclick="toggleService(this)">
+          <div class="card-name">Servis Besar / Overhaul</div>
+          <div class="card-desc">Pengerjaan berat dengan turun mesin total. Meliputi pemeriksaan dan penggantian komponen vital seperti piston, ring seher, stang seher, atau klep.</div>
+          <div class="card-footer">
+            
+            <button class="btn-pilih">Pilih</button>
+          </div>
+        </div>
+
+        <div class="card" data-id="D" onclick="toggleService(this)">
+          <div class="card-name">Layanan Khusus — Fast Track</div>
+          <div class="card-desc">Jalur prioritas untuk pengerjaan cepat tanpa antrean panjang. Khusus untuk ganti oli mesin, kampas rem, busi, atau bohlam lampu.</div>
+          <div class="card-footer">
+            
+            <button class="btn-pilih">Pilih</button>
+          </div>
+        </div>
+
+        <div class="card" data-id="E" onclick="toggleService(this)">
+          <div class="card-name">Pengecekan / Diagnosa</div>
+          <div class="card-desc">Dipilih jika ada kendala namun tidak tahu letak kerusakannya. Mekanik memeriksa kendaraan menyeluruh dan meminta persetujuan estimasi sebelum pembongkaran.</div>
+          <div class="card-footer">
+            
+            <button class="btn-pilih">Pilih</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="svc-error" id="svc-error">Pilih minimal satu layanan untuk melanjutkan.</div>
+
+      <div class="bottom-bar">
+        <button class="btn btn-secondary" onclick="window.history.back()">← Kembali</button>
+        <button class="btn btn-primary" onclick="goToKonfirmasi()">Lanjut →</button>
+      </div>
+    </main>
+
+    <footer>
+      BengkelGweh — Pelanggan Panel &copy; <span id="year"></span>
+    </footer>
+
+    <script src="servis.js"></script>
+  </body>
+</html>
