@@ -1,6 +1,6 @@
 import { json, error, handleOptions } from "../../../_lib/response.js";
 import { requireAuth } from "../../../_lib/auth.js";
-import { addBillItem } from "../../../_lib/db.js";
+import { addBillItem, addBillItemFromCatalog } from "../../../_lib/db.js";
 import { sendWhatsApp, buildQueueMessage } from "../../../_lib/fonnte.js";
 
 export async function onRequestOptions() {
@@ -14,6 +14,23 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json();
+
+    if (body.catalogPartId) {
+      const priceOverride = body.price !== undefined ? parseInt(body.price, 10) : undefined;
+      const isAdditional = body.isAdditional !== false;
+      const queue = await addBillItemFromCatalog(env.DB, params.id, parseInt(body.catalogPartId, 10), {
+        isAdditional,
+        priceOverride: isNaN(priceOverride) ? undefined : priceOverride,
+      });
+
+      if (isAdditional) {
+        const msg = buildQueueMessage("additional", queue, queue.bill);
+        await sendWhatsApp(env, queue.hp, msg);
+      }
+
+      return json({ queue });
+    }
+
     const item = body.item?.trim();
     const price = parseInt(body.price, 10);
     const isAdditional = body.isAdditional !== false;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portal Admin — BengkelGweh</title>
+    <title>Portal Admin — RiderSantuy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -11,6 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="mimin.css" />
+    <link rel="icon" type="image/png" href="../logoBG.png"/>
   </head>
   <body class="light">
     <!-- Login Card -->
@@ -20,7 +21,7 @@
           class="logo"
           style="text-align: center; font-size: 2.5rem; margin-bottom: 0.5rem"
         >
-          BENGKEL<span>Gweh</span>
+          <img src="../logo.png" height="70px" alt="logo"> RIDER<span>Santuy</span>
         </div>
         <div class="card-sub" style="text-align: center">
           Portal Karyawan & Admin
@@ -67,7 +68,7 @@
     <!-- Header admin panel -->
     <header id="main-header" style="display: none">
       <div class="logo">
-        BENGKEL<span>Gweh</span>
+        RIDER<span>Santuy</span>
         <span
           style="
             font-size: 1rem;
@@ -101,6 +102,9 @@
       </button>
       <button class="tab-btn" onclick="switchTab('tab-kasir')">
         Kasir & Pembayaran
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-parts')">
+        Database Sparepart
       </button>
     </div>
 
@@ -176,6 +180,39 @@
           </div>
         </div>
       </section>
+
+      <!-- Database sparepart -->
+      <section id="tab-parts" class="tab-content">
+        <div class="card" style="max-width: 100%">
+          <div class="card-title" style="font-size: 1.5rem">Database Sparepart & Jasa</div>
+          <div class="card-sub">Kelola katalog part, harga, dan kategori. Data dari DBmotor.xlsx.</div>
+
+          <div class="parts-toolbar">
+            <input type="text" id="parts-search" class="form-input" placeholder="Cari nama sparepart..." oninput="filterPartsTable()" />
+            <select id="parts-filter-cat" class="form-input" onchange="filterPartsTable()">
+              <option value="">Semua Kategori</option>
+            </select>
+            <button class="btn btn-primary" onclick="openPartForm()">+ Tambah Sparepart</button>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Sparepart</th>
+                  <th>Kategori</th>
+                  <th>Peruntukan</th>
+                  <th>Harga Min</th>
+                  <th>Harga Max</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="parts-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- Aksi -->
@@ -237,7 +274,40 @@
                 color: var(--muted);
                 text-transform: uppercase;
               "
-              >Tambah Item/Sparepart Baru</label
+              >Tambah dari Database Sparepart</label
+            >
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap">
+              <select id="m-catalog-select" class="form-input" style="flex: 2; min-width: 200px">
+                <option value="">— Pilih sparepart —</option>
+              </select>
+              <input
+                type="number"
+                id="m-catalog-price"
+                class="form-input"
+                placeholder="Harga (Rp)"
+                style="flex: 1; min-width: 120px"
+              />
+              <button class="btn btn-secondary" style="padding: 0.5rem 1rem" onclick="addFromCatalog()">
+                + Dari DB
+              </button>
+            </div>
+          </div>
+
+          <div
+            style="
+              border-top: 1px solid var(--border);
+              margin: 1.5rem 0;
+              padding-top: 1rem;
+            "
+          >
+            <label
+              style="
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--muted);
+                text-transform: uppercase;
+              "
+              >Tambah Item Manual</label
             >
             <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem">
               <input
@@ -286,6 +356,7 @@
         </div>
 
         <div class="btn-group modal-footer">
+          <button class="btn btn-danger" onclick="cancelTicket()">✕ Batalkan Antrean</button>
           <button class="btn btn-secondary" onclick="sendWA('progress')">
             📱 Info via WA
           </button>
@@ -352,9 +423,48 @@
       </div>
     </div>
 
+    <!-- Form sparepart -->
+    <div class="modal-overlay" id="part-form-modal">
+      <div class="card modal-content">
+        <div class="modal-header">
+          <h3 class="card-title" style="font-size: 1.5rem; margin: 0" id="part-form-title">Tambah Sparepart</h3>
+          <button class="btn-ghost" onclick="closeModal('part-form-modal')" style="font-size: 1.2rem">✖</button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="part-edit-id" />
+          <div class="field">
+            <label>Nama Sparepart</label>
+            <input type="text" id="part-name" class="form-input" placeholder="Nama part..." />
+          </div>
+          <div class="field">
+            <label>Kategori</label>
+            <input type="text" id="part-category" class="form-input" placeholder="Mesin, Transmisi, dll." />
+          </div>
+          <div class="field">
+            <label>Peruntukan</label>
+            <input type="text" id="part-usage" class="form-input" placeholder="Semua, Matic, dll." value="Semua" />
+          </div>
+          <div style="display: flex; gap: 0.5rem">
+            <div class="field" style="flex: 1">
+              <label>Harga Min (Rp)</label>
+              <input type="number" id="part-price-min" class="form-input" placeholder="0" />
+            </div>
+            <div class="field" style="flex: 1">
+              <label>Harga Max (Rp)</label>
+              <input type="number" id="part-price-max" class="form-input" placeholder="0" />
+            </div>
+          </div>
+        </div>
+        <div class="btn-group modal-footer">
+          <button class="btn btn-secondary" onclick="closeModal('part-form-modal')">Batal</button>
+          <button class="btn btn-primary" onclick="savePartForm()">Simpan</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer id="admin-footer" style="display: none">
-      BengkelGweh — Admin Panel &copy; <span id="year"></span>
+      RiderSantuy — Admin Panel &copy; <span id="year"></span>
     </footer>
 
     <script src="../js/api.js"></script>

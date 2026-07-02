@@ -23,7 +23,9 @@ export async function getQueueById(db, id) {
 
 export async function getAllQueues(db) {
   const { results } = await db
-    .prepare("SELECT * FROM queues WHERE status != 'Lunas' ORDER BY created_at DESC")
+    .prepare(
+      `SELECT * FROM queues WHERE status NOT IN ('Lunas', 'Dibatalkan') ORDER BY created_at DESC`
+    )
     .all();
 
   const queues = [];
@@ -84,9 +86,11 @@ export async function updateQueue(db, id, { status, est, pit }) {
   return getQueueById(db, id);
 }
 
-export async function addBillItem(db, queueId, { item, price, isAdditional }) {
+export async function addBillItem(db, queueId, { item, price, isAdditional, catalogPartId }) {
   await db
-    .prepare("INSERT INTO bill_items (queue_id, item, price, is_additional) VALUES (?, ?, ?, ?)")
+    .prepare(
+      "INSERT INTO bill_items (queue_id, item, price, is_additional) VALUES (?, ?, ?, ?)"
+    )
     .bind(queueId, item, price, isAdditional ? 1 : 0)
     .run();
 
@@ -97,9 +101,148 @@ export async function addBillItem(db, queueId, { item, price, isAdditional }) {
       )
       .bind(queueId)
       .run();
+  } else {
+    await db
+      .prepare("UPDATE queues SET updated_at = datetime('now') WHERE id = ?")
+      .bind(queueId)
+      .run();
   }
 
   return getQueueById(db, queueId);
+}
+
+export async function removeBillItem(db, queueId, billItemId) {
+  const item = await db
+    .prepare("SELECT id FROM bill_items WHERE id = ? AND queue_id = ?")
+    .bind(billItemId, queueId)
+    .first();
+  if (!item) throw new Error("Item tagihan tidak ditemukan");
+
+  await db.prepare("DELETE FROM bill_items WHERE id = ? AND queue_id = ?").bind(billItemId, queueId).run();
+
+  const { results } = await db
+    .prepare("SELECT id FROM bill_items WHERE queue_id = ? AND is_additional = 1")
+    .bind(queueId)
+    .all();
+
+  if (!results?.length) {
+    await db
+      .prepare(
+        "UPDATE queues SET pending_bill_approval = 0, approval_status = 'none', updated_at = datetime('now') WHERE id = ?"
+      )
+      .bind(queueId)
+      .run();
+  } else {
+    await db.prepare("UPDATE queues SET updated_at = datetime('now') WHERE id = ?").bind(queueId).run();
+  }
+
+  return getQueueById(db, queueId);
+}
+
+export async function cancelQueue(db, queueId) {
+  const queue = await getQueueById(db, queueId);
+  if (!queue) throw new Error("Antrean tidak ditemukan");
+  if (queue.status === "Lunas") throw new Error("Antrean yang sudah lunas tidak dapat dibatalkan");
+
+  await db
+    .prepare(
+      `UPDATE queues SET status = 'Dibatalkan', updated_at = datetime('now') WHERE id = ?`
+    )
+    .bind(queueId)
+    .run();
+
+  return getQueueById(db, queueId);
+}
+
+export async function getAllParts(db, { search, category } = {}) {
+  let sql = "SELECT * FROM parts_catalog WHERE 1=1";
+  const binds = [];
+
+  if (search) {
+    sql += " AND name LIKE ?";
+    binds.push("%" + search + "%");
+  }
+  if (category) {
+    sql += " AND category = ?";
+    binds.push(category);
+  }
+
+  sql += " ORDER BY category, name";
+  const stmt = db.prepare(sql);
+  const { results } = binds.length ? await stmt.bind(...binds).all() : await stmt.all();
+  return results || [];
+}
+
+export async function getPartById(db, id) {
+  return db.prepare("SELECT * FROM parts_catalog WHERE id = ?").bind(id).first();
+}
+
+export async function createPart(db, { name, category, usageFor, priceMin, priceMax }) {
+  const maxRow = await db.prepare("SELECT MAX(id) as max_id FROM parts_catalog").first();
+  const id = (maxRow?.max_id || 0) + 1;
+
+  await db
+    .prepare(
+      `INSERT INTO parts_catalog (id, name, category, usage_for, price_min, price_max)
+       VALUES (?, ?, ?, ?, ?, ?)`
+    )
+    .bind(id, name, category, usageFor || "Semua", priceMin, priceMax)
+    .run();
+
+  return getPartById(db, id);
+}
+
+export async function updatePart(db, id, { name, category, usageFor, priceMin, priceMax }) {
+  const fields = [];
+  const values = [];
+
+  if (name !== undefined) {
+    fields.push("name = ?");
+    values.push(name);
+  }
+  if (category !== undefined) {
+    fields.push("category = ?");
+    values.push(category);
+  }
+  if (usageFor !== undefined) {
+    fields.push("usage_for = ?");
+    values.push(usageFor);
+  }
+  if (priceMin !== undefined) {
+    fields.push("price_min = ?");
+    values.push(priceMin);
+  }
+  if (priceMax !== undefined) {
+    fields.push("price_max = ?");
+    values.push(priceMax);
+  }
+
+  if (fields.length === 0) return getPartById(db, id);
+
+  fields.push("updated_at = datetime('now')");
+  values.push(id);
+
+  await db.prepare(`UPDATE parts_catalog SET ${fields.join(", ")} WHERE id = ?`).bind(...values).run();
+  return getPartById(db, id);
+}
+
+export async function deletePart(db, id) {
+  const part = await getPartById(db, id);
+  if (!part) throw new Error("Sparepart tidak ditemukan");
+  await db.prepare("DELETE FROM parts_catalog WHERE id = ?").bind(id).run();
+  return { deleted: true, id };
+}
+
+export async function addBillItemFromCatalog(db, queueId, partId, { isAdditional = true, priceOverride } = {}) {
+  const part = await getPartById(db, partId);
+  if (!part) throw new Error("Sparepart tidak ditemukan");
+
+  const price = priceOverride ?? Math.round((part.price_min + part.price_max) / 2);
+  return addBillItem(db, queueId, {
+    item: part.name,
+    price,
+    isAdditional,
+  });
 }
 
 export async function processPayment(db, queueId, paymentMethod) {

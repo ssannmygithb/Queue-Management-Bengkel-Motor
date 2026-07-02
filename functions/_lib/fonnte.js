@@ -45,7 +45,7 @@ export function buildQueueMessage(type, queue, billItems = []) {
     case "queue":
       return (
         `Halo Kak ${queue.nama}! 👋\n\n` +
-        `Antrean Anda telah terdaftar di *BengkelGweh*.\n\n` +
+        `Antrean Anda telah terdaftar di *RiderSantuy*.\n\n` +
         `📋 *Nomor Antrean:* ${queue.id}\n` +
         `🛵 *Plat:* ${queue.plat}\n` +
         `🔧 *Layanan:* ${queue.service_name}\n\n` +
@@ -90,7 +90,7 @@ export function buildQueueMessage(type, queue, billItems = []) {
         `Terima kasih Kak ${queue.nama}! 🙏\n\n` +
         `Pembayaran motor plat *${queue.plat}* (Antrean ${queue.id}) telah *LUNAS*.\n` +
         `Kendaraan Anda sudah bisa diambil.\n\n` +
-        `— BengkelGweh`
+        `— RiderSantuy`
       );
 
     default:

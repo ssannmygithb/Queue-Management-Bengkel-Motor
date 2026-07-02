@@ -7,10 +7,20 @@ const API = {
     if (token) headers.Authorization = `Bearer ${token}`;
 
     const res = await fetch(this.base + path, { ...options, headers });
-    const data = await res.json().catch(() => ({}));
+    const text = await res.text();
+    let data = {};
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      if (!res.ok) {
+        const err = new Error(`Server error (${res.status}). API tidak merespons JSON — cek binding D1 di Cloudflare Pages.`);
+        err.status = res.status;
+        throw err;
+      }
+    }
 
     if (!res.ok) {
-      const err = new Error(data.error || "Permintaan gagal");
+      const err = new Error(data.error || `Permintaan gagal (${res.status})`);
       err.status = res.status;
       throw err;
     }
@@ -44,11 +54,21 @@ const API = {
     });
   },
 
-  async addBillItem(id, item, price, isAdditional = true) {
+  async addBillItem(id, payload) {
     return this.request(`/queues/${id}/bill-items`, {
       method: "POST",
-      body: JSON.stringify({ item, price, isAdditional }),
+      body: JSON.stringify(payload),
     });
+  },
+
+  async removeBillItem(queueId, billId) {
+    return this.request(`/queues/${queueId}/bill-items/${billId}`, {
+      method: "DELETE",
+    });
+  },
+
+  async cancelQueue(id) {
+    return this.request(`/queues/${id}/cancel`, { method: "POST" });
   },
 
   async processPayment(id, method) {
@@ -63,6 +83,29 @@ const API = {
       method: "POST",
       body: JSON.stringify({ type }),
     });
+  },
+
+  async getParts(params = {}) {
+    const qs = new URLSearchParams();
+    if (params.search) qs.set("search", params.search);
+    if (params.category) qs.set("category", params.category);
+    const q = qs.toString();
+    return this.request("/parts" + (q ? "?" + q : ""));
+  },
+
+  async createPart(payload) {
+    return this.request("/parts", { method: "POST", body: JSON.stringify(payload) });
+  },
+
+  async updatePart(id, payload) {
+    return this.request(`/parts/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async deletePart(id) {
+    return this.request(`/parts/${id}`, { method: "DELETE" });
   },
 
   logout() {

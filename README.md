@@ -9,6 +9,119 @@ Sistem antrean bengkel motor dengan **Cloudflare Pages**, **D1**, dan notifikasi
 - **Database**: Cloudflare D1 (SQLite)
 - **WhatsApp**: Fonnte API + webhook untuk balasan `YA`
 
+## Setup Lokal
+
+### 1. Install dependensi
+
+```bash
+npm install
+```
+
+### 2. Buat database D1 lokal & jalankan migrasi
+
+```bash
+npx wrangler d1 create bengkel-queue
+```
+
+Salin `database_id` dari output ke `wrangler.toml`, lalu:
+
+```bash
+npm run db:migrate:local   # dev
+npm run db:migrate:remote  # production — jalankan setelah update schema (0002_parts_catalog)
+```
+
+### 3. Konfigurasi environment
+
+Salin `.dev.vars.example` ke `.dev.vars` dan isi:
+
+```
+FONNTE_TOKEN=token_dari_dashboard_fonnte
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=password_anda
+```
+
+### 4. Jalankan dev server
+
+```bash
+npm run dev
+```
+
+Buka `http://localhost:8788/` (otomatis ke landing page)
+
+## Deploy ke Cloudflare Pages
+
+**Penting:** Selalu deploy folder `public/`, bukan root repo.
+
+```bash
+npm run deploy
+```
+
+URL production: `https://queue-management-bengkel.pages.dev/`
+
+Jangan gunakan `wrangler pages deploy .` — itu akan menempatkan file di `/public/...` dan root `/` menjadi 404.
+
+### Troubleshooting
+
+| Gejala | Penyebab | Solusi |
+|--------|----------|--------|
+| Root `/` 404 | Deploy root repo (`.`) bukan `public/` | `npm run deploy` |
+| Hanya `/public/...` yang bisa dibuka | Sama seperti di atas | Deploy ulang dengan `npm run deploy` |
+| POST `/api/queues` gagal | Functions tidak ter-deploy atau D1 belum di-bind | Bind D1 `DB` → `bengkel-queue` di Pages Settings → Functions |
+| Logo tidak muncul | File logo tidak ada di `public/` | Pastikan `public/logo.png` dan `public/logoBG.png` ikut ter-upload |
+
+### 1. Buat project Pages
+
+```bash
+npx wrangler pages project create bengkel-management
+```
+
+### 2. Buat D1 database (production)
+
+```bash
+npx wrangler d1 create bengkel-queue
+```
+
+Update `database_id` di `wrangler.toml`, lalu:
+
+```bash
+npm run db:migrate:remote
+```
+
+### 3. Set secrets
+
+```bash
+npx wrangler pages secret put FONNTE_TOKEN --project-name bengkel-management
+npx wrangler pages secret put ADMIN_USERNAME --project-name bengkel-management
+npx wrangler pages secret put ADMIN_PASSWORD --project-name bengkel-management
+```
+
+### 4. Deploy
+
+```bash
+npm run deploy
+```
+
+Deploy mengirim folder `public/` sebagai root situs (bukan seluruh repo). Setelah deploy, buka:
+
+```
+https://<your-domain>/
+```
+
+Itu akan otomatis mengarah ke `/Landingpage/landing.html`.
+
+### 5. Bind D1 ke Pages project
+
+Di Cloudflare Dashboard → Pages → project → Settings → Functions → D1 bindings:
+- Variable name: `DB`
+- D1 database: `bengkel-queue`
+
+### 6. Konfigurasi webhook Fonnte
+
+Di dashboard Fonnte (Device → Edit → Webhook), set URL:
+
+```
+https://<your-pages-domain>/api/webhook/fonnte
+```
 
 ## API Endpoints
 

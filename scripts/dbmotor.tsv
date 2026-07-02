@@ -1,0 +1,150 @@
+﻿1,Piston (Seher),Mesin,Semua,100.000 - 300.000
+2,Ring Piston,Mesin,Semua,50.000 - 150.000
+3,Pen Piston,Mesin,Semua,20.000 - 50.000
+4,Blok Silinder,Mesin,Semua,250.000 - 700.000
+5,Head Silinder,Mesin,Semua,300.000 - 800.000
+6,Klep In (Valve Intake),Mesin,Semua,40.000 - 100.000
+7,Klep Ex (Valve Exhaust),Mesin,Semua,40.000 - 100.000
+8,Noken As (Camshaft),Mesin,Semua,150.000 - 450.000
+9,Pelatuk Klep (Rocker Arm),Mesin,Semua,80.000 - 200.000
+10,Rantai Keteng (Cam Chain),Mesin,Semua,60.000 - 150.000
+11,Tensioner Rantai Keteng,Mesin,Semua,80.000 - 250.000
+12,Lidah Tensioner,Mesin,Semua,30.000 - 80.000
+13,Kruk As (Crankshaft),Mesin,Semua,400.000 - 1.200.000
+14,Stang Seher (Connecting Rod),Mesin,Semua,150.000 - 350.000
+15,Bearing Kruk As,Mesin,Semua,60.000 - 150.000
+16,Seal Kruk As,Mesin,Semua,15.000 - 50.000
+17,Pompa Oli,Mesin,Semua,80.000 - 200.000
+18,Gigi Pompa Oli,Mesin,Semua,20.000 - 60.000
+19,Gasket Blok Mesin (Paking Bawah),Mesin,Semua,10.000 - 30.000
+20,Gasket Head (Paking Atas),Mesin,Semua,20.000 - 60.000
+21,Busi (Spark Plug),Pengapian,Semua,15.000 - 100.000
+22,Cop Busi,Pengapian,Semua,20.000 - 50.000
+23,Koil Pengapian,Pengapian,Semua,80.000 - 250.000
+24,CDI (Capacitor Discharge Ignition),Kelistrikan,Karburator,150.000 - 500.000
+25,ECU (Engine Control Unit),Kelistrikan,Injeksi,600.000 - 2.000.000
+26,Kiprok (Regulator/Rectifier),Kelistrikan,Semua,100.000 - 350.000
+27,Spul (Stator/Generator),Kelistrikan,Semua,150.000 - 450.000
+28,Magnet (Rotor),Kelistrikan,Semua,250.000 - 700.000
+29,Bendik Starter,Kelistrikan,Semua,40.000 - 120.000
+30,Dinamo Starter,Kelistrikan,Semua,150.000 - 400.000
+31,Aki (Battery) Kering,Kelistrikan,Semua,150.000 - 350.000
+32,Kabel Bodi (Wire Harness),Kelistrikan,Semua,250.000 - 700.000
+33,Sekring (Fuse),Kelistrikan,Semua,2.000 - 10.000
+34,Karburator Assy,Bahan Bakar,Karburator,250.000 - 800.000
+35,Pilot Jet,Bahan Bakar,Karburator,15.000 - 35.000
+36,Main Jet,Bahan Bakar,Karburator,15.000 - 35.000
+37,Throttle Body,Bahan Bakar,Injeksi,300.000 - 900.000
+38,Injektor,Bahan Bakar,Injeksi,150.000 - 400.000
+39,Fuel Pump,Bahan Bakar,Injeksi,250.000 - 650.000
+40,Rotak Fuel Pump,Bahan Bakar,Injeksi,80.000 - 200.000
+41,Filter Bensin,Bahan Bakar,Semua,15.000 - 50.000
+42,Membran (Reed Valve),Mesin,2-Tak,80.000 - 250.000
+43,Intake Manifold (Karet Manipul),Bahan Bakar,Semua,30.000 - 100.000
+44,V-Belt (Vanbelt),Transmisi,Matic,80.000 - 180.000
+45,Roller CVT (Set),Transmisi,Matic,40.000 - 90.000
+46,Pulley Depan (Rumah Roller),Transmisi,Matic,100.000 - 250.000
+47,Kipas Pulley Depan,Transmisi,Matic,40.000 - 100.000
+48,Kampas Ganda CVT,Transmisi,Matic,120.000 - 300.000
+49,Mangkok Kampas Ganda,Transmisi,Matic,100.000 - 250.000
+50,Per CVT,Transmisi,Matic,40.000 - 90.000
+51,Per Sentrik (Per Kampas Ganda),Transmisi,Matic,20.000 - 40.000
+52,Slider / Piece Slide CVT,Transmisi,Matic,15.000 - 35.000
+53,Seal Kruk As CVT,Transmisi,Matic,20.000 - 45.000
+54,Kampas Kopling,Transmisi,Kopling/Bebek,80.000 - 250.000
+55,Plat Gesek Kopling,Transmisi,Kopling/Bebek,50.000 - 150.000
+56,Rumah Kopling (Clutch Housing),Transmisi,Kopling/Bebek,250.000 - 600.000
+57,Per Kopling,Transmisi,Kopling/Bebek,30.000 - 80.000
+58,Handle Kopling,Kemudi,Kopling/Sport,25.000 - 80.000
+59,Kabel Kopling,Transmisi,Kopling/Sport,30.000 - 70.000
+60,Gigi Primer,Transmisi,Bebek/Kopling,150.000 - 350.000
+61,Gigi Sekunder,Transmisi,Bebek/Kopling,150.000 - 350.000
+62,As Persneling (Shift Shaft),Transmisi,Bebek/Kopling,60.000 - 150.000
+63,Pedal Transmisi (Operan Gigi),Bodi & Rangka,Bebek/Kopling,40.000 - 100.000
+64,Rantai Roda (Drive Chain),Penggerak,Bebek/Kopling,100.000 - 350.000
+65,Gir Depan (Front Sprocket),Penggerak,Bebek/Kopling,30.000 - 80.000
+66,Gir Belakang (Rear Sprocket),Penggerak,Bebek/Kopling,60.000 - 150.000
+67,Gear Set (Rantai + 2 Gir),Penggerak,Bebek/Kopling,150.000 - 450.000
+68,Karet Tromol,Kaki-kaki,Bebek/Kopling,15.000 - 40.000
+69,Bearing Roda Depan,Kaki-kaki,Semua,20.000 - 50.000
+70,Bearing Roda Belakang,Kaki-kaki,Semua,25.000 - 60.000
+71,Bos Roda Depan / Belakang,Kaki-kaki,Semua,15.000 - 40.000
+72,Jari-jari Roda (Spokes),Kaki-kaki,Semua,35.000 - 90.000
+73,Velg Racing (Cast Wheel) Depan,Kaki-kaki,Semua,300.000 - 800.000
+74,Velg Racing (Cast Wheel) Belakang,Kaki-kaki,Semua,400.000 - 900.000
+75,Ban Luar Depan (Tube/Tubeless),Kaki-kaki,Semua,150.000 - 350.000
+76,Ban Luar Belakang (Tube/Tubeless),Kaki-kaki,Semua,180.000 - 450.000
+77,Ban Dalam Depan,Kaki-kaki,Semua,30.000 - 60.000
+78,Ban Dalam Belakang,Kaki-kaki,Semua,35.000 - 70.000
+79,Pentil Ban Tubeless,Kaki-kaki,Semua,10.000 - 25.000
+80,Kampas Rem Depan (Disc Pad),Pengereman,Semua,35.000 - 100.000
+81,Kampas Rem Belakang (Tromol/Shoe),Pengereman,Bebek/Matic,30.000 - 80.000
+82,Kampas Rem Belakang (Disc Pad),Pengereman,Kopling/Sport,40.000 - 120.000
+83,Master Rem Depan Assy,Pengereman,Semua,100.000 - 300.000
+84,Seal Master Rem,Pengereman,Semua,25.000 - 60.000
+85,Handle Rem Kanan,Pengereman,Semua,20.000 - 60.000
+86,Handle Rem Kiri,Pengereman,Matic,20.000 - 60.000
+87,Kabel Rem Belakang,Pengereman,Matic,40.000 - 90.000
+88,Selang Rem Cakram,Pengereman,Semua,50.000 - 150.000
+89,Kaliper Rem,Pengereman,Semua,150.000 - 400.000
+90,Piston Kaliper Rem,Pengereman,Semua,30.000 - 80.000
+91,Piringan Cakram (Disc Rotor),Pengereman,Semua,80.000 - 250.000
+92,Botol Minyak Rem,Pengereman,Semua,20.000 - 50.000
+93,As Roda Depan,Kaki-kaki,Semua,30.000 - 70.000
+94,As Roda Belakang,Kaki-kaki,Semua,40.000 - 90.000
+95,Mur As Roda,Kaki-kaki,Semua,10.000 - 25.000
+96,Pipa As Shock Depan (Inner Tube),Kaki-kaki,Semua,100.000 - 250.000
+97,Tabung Shock Depan (Outer Tube),Kaki-kaki,Semua,150.000 - 350.000
+98,Seal Shock Depan,Kaki-kaki,Semua,15.000 - 40.000
+99,Per Shock Depan,Kaki-kaki,Semua,40.000 - 90.000
+100,Shockbreaker Belakang,Kaki-kaki,Semua,150.000 - 600.000
+101,Bos Swing Arm,Kaki-kaki,Bebek/Kopling,30.000 - 80.000
+102,Lengan Ayun (Swing Arm),Kaki-kaki,Bebek/Kopling,250.000 - 600.000
+103,Karet Tahanan Rantai,Kaki-kaki,Bebek/Kopling,15.000 - 40.000
+104,Komstir (Steering Cone/Bearing),Kemudi,Semua,60.000 - 150.000
+105,Pelor Komstir (Steel Balls),Kemudi,Semua,15.000 - 35.000
+106,Segitiga Bawah (T-Steering),Kemudi,Semua,200.000 - 500.000
+107,Segitiga Atas,Kemudi,Kopling/Sport,100.000 - 300.000
+108,Stang Kemudi (Handlebar),Kemudi,Semua,60.000 - 200.000
+109,Jalu Stang (Bar End),Kemudi,Semua,15.000 - 50.000
+110,Handgrip (Karet Stang),Kemudi,Semua,20.000 - 70.000
+111,Saklar Kiri (Holder Kiri),Kemudi,Semua,50.000 - 150.000
+112,Saklar Kanan (Holder Kanan),Kemudi,Semua,50.000 - 150.000
+113,Kabel Gas (Throttle Cable),Kemudi,Semua,30.000 - 80.000
+114,Kabel Spidometer,Instrumen,Semua,25.000 - 60.000
+115,Gigi Nanas Spidometer,Instrumen,Semua,20.000 - 50.000
+116,Panel Spidometer Assy,Instrumen,Semua,250.000 - 800.000
+117,Kaca Spion (Set),Aksesoris,Semua,40.000 - 120.000
+118,Reflektor Lampu Depan,Pencahayaan,Semua,100.000 - 350.000
+119,Bohlam Lampu Depan (Halogen/LED),Pencahayaan,Semua,20.000 - 150.000
+120,Fitting Lampu Depan,Pencahayaan,Semua,20.000 - 50.000
+121,Mika Lampu Sein,Pencahayaan,Semua,15.000 - 45.000
+122,Bohlam Lampu Sein,Pencahayaan,Semua,5.000 - 20.000
+123,Flasher Sein,Kelistrikan,Semua,20.000 - 50.000
+124,Mika Lampu Stop (Taillight),Pencahayaan,Semua,25.000 - 70.000
+125,Bohlam Lampu Stop,Pencahayaan,Semua,10.000 - 30.000
+126,Switch Rem Depan,Kelistrikan,Semua,15.000 - 35.000
+127,Switch Rem Belakang,Kelistrikan,Semua,15.000 - 40.000
+128,Klakson (Horn),Kelistrikan,Semua,30.000 - 90.000
+129,Kunci Kontak Assy,Bodi & Umum,Semua,100.000 - 350.000
+130,Tutup Tangki Bensin,Bahan Bakar,Semua,25.000 - 60.000
+131,Pelampung Tangki (Fuel Sender),Bahan Bakar,Semua,40.000 - 120.000
+132,Filter Udara,Mesin,Semua,35.000 - 80.000
+133,Box Filter Udara,Bodi & Umum,Semua,80.000 - 200.000
+134,Knalpot Assy (Muffler),Bodi & Umum,Semua,300.000 - 1.000.000
+135,Leher Knalpot (Header),Bodi & Umum,Semua,80.000 - 250.000
+136,Gasket Knalpot (Paking Knalpot),Bodi & Umum,Semua,5.000 - 20.000
+137,Cover Knalpot (Pelindung Panas),Bodi & Umum,Matic/Bebek,40.000 - 100.000
+138,Standar Tengah (Main Stand),Bodi & Umum,Semua,60.000 - 150.000
+139,Standar Samping (Side Stand),Bodi & Umum,Semua,30.000 - 70.000
+140,Per Standar Tengah/Samping,Bodi & Umum,Semua,10.000 - 25.000
+141,Step Depan (Footstep),Bodi & Umum,Semua,40.000 - 120.000
+142,Karet Step Depan,Bodi & Umum,Bebek/Kopling,15.000 - 40.000
+143,Step Belakang (Pijakan Penumpang),Bodi & Umum,Semua,30.000 - 90.000
+144,Jok Motor (Seat Assy),Bodi & Umum,Semua,150.000 - 400.000
+145,Kulit Jok (Seat Cover),Bodi & Umum,Semua,30.000 - 80.000
+146,Spakbor Depan (Front Fender),Bodi & Umum,Semua,60.000 - 150.000
+147,Spakbor Belakang (Rear Fender),Bodi & Umum,Semua,50.000 - 120.000
+148,Sayap Kanan-Kiri (Leg Shield),Bodi & Umum,Bebek/Matic,150.000 - 350.000
+149,Dudukan Plat Nomor (Bracket),Bodi & Umum,Semua,15.000 - 40.000
+150,Set Baut Full Bodi / Klip Bodi,Bodi & Umum,Semua,30.000 - 80.000
